@@ -327,6 +327,10 @@
     // 通用的渲染函數
     function displayArray(algorithm, arr, activeIdx = -1) {
         const wrapper = document.getElementById(`${algorithm}-wrapper`);
+        if (!wrapper) {
+            console.error(`找不到元素: ${algorithm}-wrapper`);
+            return;
+        }
         wrapper.innerHTML = '';
         arr.forEach((value, index) => {
             const bar = document.createElement('div');
@@ -504,11 +508,15 @@
     }
 
     // 初始化
-    displayArray('bubble', algorithms.bubble);
-    displayArray('insertion', algorithms.insertion);
-    displayArray('merge', algorithms.merge);
-    displayArray('quick', algorithms.quick);
-    displayArray('selection', algorithms.selection);
+    window.addEventListener('DOMContentLoaded', function() {
+        console.log('開始初始化...');
+        displayArray('bubble', algorithms.bubble);
+        displayArray('insertion', algorithms.insertion);
+        displayArray('merge', algorithms.merge);
+        displayArray('quick', algorithms.quick);
+        displayArray('selection', algorithms.selection);
+        console.log('初始化完成');
+    });
 </script>
 
 </body>
