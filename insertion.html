@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>合併排序動態展示 (Merge Sort)</title>
+    <title>插入排序動態展示 (Insertion Sort)</title>
     <style>
         body {
             display: flex;
@@ -34,7 +34,7 @@
         .bar {
             width: 30px;
             margin: 0 3px;
-            background-color: #9b59b6; /* Purple */
+            background-color: #008080; /* Teal */
             transition: height 0.3s ease;
             position: relative;
         }
@@ -77,7 +77,7 @@
 <body>
 
 <div class="container">
-    <h2>合併排序 (Merge Sort)</h2>
+    <h2>插入排序 (Insertion Sort)</h2>
     
     <div id="array-wrapper"></div>
 
@@ -92,7 +92,7 @@
         </div>
         <div class="btn-group">
             <button onclick="generateArray()">生成隨機數據</button>
-            <button id="sortBtn" onclick="runMergeSort()">開始排序</button>
+            <button id="sortBtn" onclick="runInsertionSort()">開始排序</button>
         </div>
     </div>
 </div>
@@ -126,36 +126,34 @@
     }
 
     // 核心演算法邏輯
-    async function runMergeSort() {
+    async function runInsertionSort() {
         sortBtn.disabled = true;
         const speed = parseInt(document.getElementById('speed').value);
-        
-        async function mergeSort(start = 0, end = currentArray.length - 1) {
-            if (start >= end) return;
-            const mid = Math.floor((start + end) / 2);
-            await mergeSort(start, mid);
-            await mergeSort(mid + 1, end);
-            
-            let left = currentArray.slice(start, mid + 1);
-            let right = currentArray.slice(mid + 1, end + 1);
-            let i = 0, j = 0, k = start;
-            
-            while (i < left.length && j < right.length) {
-                displayArray(currentArray, k);
+        let n = currentArray.length;
+
+        for (let i = 1; i < n; i++) {
+            let key = currentArray[i];
+            let j = i - 1;
+
+            // 視覺化：標記當前選中的元素
+            displayArray(currentArray, i);
+            await new Promise(r => setTimeout(r, speed));
+
+            while (j >= 0 && currentArray[j] > key) {
+                currentArray[j + 1] = currentArray[j];
+                j--;
+                
+                displayArray(currentArray, j + 1);
                 await new Promise(r => setTimeout(r, speed));
-                if (left[i] <= right[j]) currentArray[k++] = left[i++];
-                else currentArray[k++] = right[j++];
             }
-            while (i < left.length) currentArray[k++] = left[i++];
-            while (j < right.length) currentArray[k++] = right[j++];
+            currentArray[j + 1] = key;
+            displayArray(currentArray, j + 1);
+            await new Promise(r => setTimeout(r, speed));
         }
-        
-        await mergeSort();
         
         // 完成排序
         displayArray(currentArray);
         alert("排序完成！");
-        sortBtn.disabled = false;
     }
 
     // 初始載入
