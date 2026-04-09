@@ -5,519 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>排序演算法動態展示</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .header {
-            text-align: center;
+            margin: 0;
             color: white;
-            padding: 30px 0 20px;
-            width: 100%;
         }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 0 20px;
-            width: 100%;
-        }
-
-        .tab-button {
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            background-color: rgba(255, 255, 255, 0.3);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .tab-button:hover {
-            background-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .tab-button.active {
-            background-color: white;
-            color: #667eea;
-        }
-
-        .content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
             text-align: center;
-            width: 90%;
-            max-width: 1000px;
-            margin-bottom: 40px;
+            max-width: 800px;
         }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        #array-wrapper {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            height: 250px;
+        h1 {
+            font-size: 3em;
             margin-bottom: 20px;
-            padding: 10px;
-            border-bottom: 2px solid #ddd;
-            min-height: 200px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-
-        .bar {
-            width: 30px;
-            margin: 0 3px;
-            transition: height 0.3s ease, background-color 0.3s ease;
-            position: relative;
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
         }
-
-        .bar::after {
-            content: attr(data-value);
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 12px;
-            color: #333;
-        }
-
-        .controls {
+        .algorithms {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
         }
-
-        .btn-group {
-            grid-column: span 2;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        label {
-            font-size: 14px;
-            color: #666;
-            text-align: left;
-        }
-
-        input {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            width: 100%;
-        }
-
-        button {
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: #2c3e50;
+        .algorithm-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
             color: white;
-            border: none;
-            border-radius: 5px;
-            transition: background 0.2s;
-            font-weight: bold;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-
-        button:hover {
-            background-color: #34495e;
+        .algorithm-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.3);
         }
-
-        button:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
+        .algorithm-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
         }
-
-        h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
+        .algorithm-card p {
+            font-size: 0.9em;
+            opacity: 0.8;
         }
-
-        .bubble .bar { background-color: #3498db; }
-        .insertion .bar { background-color: #008080; }
-        .merge .bar { background-color: #9b59b6; }
-        .quick .bar { background-color: #e67e22; }
-        .selection .bar { background-color: #1abc9c; }
     </style>
 </head>
 <body>
-
-<div class="header">
-    <h1>🔢 排序演算法動態展示</h1>
-    <p>點擊下方選項卡選擇排序演算法</p>
-</div>
-
-<div class="tabs">
-    <button class="tab-button active" onclick="switchTab('bubble')">🫧 氣泡排序</button>
-    <button class="tab-button" onclick="switchTab('insertion')">📥 插入排序</button>
-    <button class="tab-button" onclick="switchTab('merge')">🔀 合併排序</button>
-    <button class="tab-button" onclick="switchTab('quick')">⚡ 快速排序</button>
-    <button class="tab-button" onclick="switchTab('selection')">👆 選擇排序</button>
-</div>
-
-<div class="content bubble">
-    <div class="tab-content active" id="bubble">
-        <h2>氣泡排序 (Bubble Sort)</h2>
-        <div id="bubble-wrapper"></div>
-        <div class="controls">
-            <div>
-                <label for="bubble-dataCount">數據筆數:</label>
-                <input type="number" id="bubble-dataCount" value="10" min="1" max="25">
-            </div>
-            <div>
-                <label for="bubble-speed">動畫延遲 (ms):</label>
-                <input type="number" id="bubble-speed" value="300" min="50" max="2000">
-            </div>
-            <div class="btn-group">
-                <button onclick="generateArray('bubble')">生成隨機數據</button>
-                <button id="bubble-sortBtn" onclick="runBubbleSort()">開始排序</button>
-            </div>
+    <div class="container">
+        <h1>排序演算法動態展示</h1>
+        <p>選擇一個排序演算法來查看其動態演示。每個頁面都支持暫停和重新播放功能。</p>
+        
+        <div class="algorithms">
+            <a href="bubble.html" class="algorithm-card">
+                <h3>氣泡排序</h3>
+                <p>Bubble Sort</p>
+            </a>
+            <a href="insertion.html" class="algorithm-card">
+                <h3>插入排序</h3>
+                <p>Insertion Sort</p>
+            </a>
+            <a href="selection.html" class="algorithm-card">
+                <h3>選擇排序</h3>
+                <p>Selection Sort</p>
+            </a>
+            <a href="merge.html" class="algorithm-card">
+                <h3>合併排序</h3>
+                <p>Merge Sort</p>
+            </a>
+            <a href="quick.html" class="algorithm-card">
+                <h3>快速排序</h3>
+                <p>Quick Sort</p>
+            </a>
         </div>
     </div>
-</div>
-
-<div class="content insertion" style="display: none;">
-    <div class="tab-content" id="insertion">
-        <h2>插入排序 (Insertion Sort)</h2>
-        <div id="insertion-wrapper"></div>
-        <div class="controls">
-            <div>
-                <label for="insertion-dataCount">數據筆數:</label>
-                <input type="number" id="insertion-dataCount" value="10" min="1" max="25">
-            </div>
-            <div>
-                <label for="insertion-speed">動畫延遲 (ms):</label>
-                <input type="number" id="insertion-speed" value="300" min="50" max="2000">
-            </div>
-            <div class="btn-group">
-                <button onclick="generateArray('insertion')">生成隨機數據</button>
-                <button id="insertion-sortBtn" onclick="runInsertionSort()">開始排序</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="content merge" style="display: none;">
-    <div class="tab-content" id="merge">
-        <h2>合併排序 (Merge Sort)</h2>
-        <div id="merge-wrapper"></div>
-        <div class="controls">
-            <div>
-                <label for="merge-dataCount">數據筆數:</label>
-                <input type="number" id="merge-dataCount" value="10" min="1" max="25">
-            </div>
-            <div>
-                <label for="merge-speed">動畫延遲 (ms):</label>
-                <input type="number" id="merge-speed" value="300" min="50" max="2000">
-            </div>
-            <div class="btn-group">
-                <button onclick="generateArray('merge')">生成隨機數據</button>
-                <button id="merge-sortBtn" onclick="runMergeSort()">開始排序</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="content quick" style="display: none;">
-    <div class="tab-content" id="quick">
-        <h2>快速排序 (Quick Sort)</h2>
-        <div id="quick-wrapper"></div>
-        <div class="controls">
-            <div>
-                <label for="quick-dataCount">數據筆數:</label>
-                <input type="number" id="quick-dataCount" value="10" min="1" max="25">
-            </div>
-            <div>
-                <label for="quick-speed">動畫延遲 (ms):</label>
-                <input type="number" id="quick-speed" value="300" min="50" max="2000">
-            </div>
-            <div class="btn-group">
-                <button onclick="generateArray('quick')">生成隨機數據</button>
-                <button id="quick-sortBtn" onclick="runQuickSort()">開始排序</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="content selection" style="display: none;">
-    <div class="tab-content" id="selection">
-        <h2>選擇排序 (Selection Sort)</h2>
-        <div id="selection-wrapper"></div>
-        <div class="controls">
-            <div>
-                <label for="selection-dataCount">數據筆數:</label>
-                <input type="number" id="selection-dataCount" value="10" min="1" max="25">
-            </div>
-            <div>
-                <label for="selection-speed">動畫延遲 (ms):</label>
-                <input type="number" id="selection-speed" value="300" min="50" max="2000">
-            </div>
-            <div class="btn-group">
-                <button onclick="generateArray('selection')">生成隨機數據</button>
-                <button id="selection-sortBtn" onclick="runSelectionSort()">開始排序</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // 初始化所有算法的數據
-    const algorithms = {
-        bubble: [5, 3, 8, 4, 2, 7, 1],
-        insertion: [5, 3, 8, 4, 2, 7, 1],
-        merge: [5, 3, 8, 4, 2, 7, 1],
-        quick: [5, 3, 8, 4, 2, 7, 1],
-        selection: [5, 3, 8, 4, 2, 7, 1]
-    };
-
-    // 標籤切換功能
-    function switchTab(algorithm) {
-        // 隱藏所有內容
-        document.querySelectorAll('.content').forEach(el => {
-            el.style.display = 'none';
-        });
-
-        // 移除所有按鈕的活躍狀態
-        document.querySelectorAll('.tab-button').forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        // 顯示選中的內容
-        const contentElement = document.querySelector(`.content.${algorithm}`);
-        if (contentElement) {
-            contentElement.style.display = 'block';
-        }
-
-        // 標記按鈕為活躍
-        event.target.classList.add('active');
-    }
-
-    // 通用的渲染函數
-    function displayArray(algorithm, arr, activeIdx = -1) {
-        const wrapper = document.getElementById(`${algorithm}-wrapper`);
-        if (!wrapper) {
-            console.error(`找不到元素: ${algorithm}-wrapper`);
-            return;
-        }
-        wrapper.innerHTML = '';
-        arr.forEach((value, index) => {
-            const bar = document.createElement('div');
-            bar.className = 'bar';
-            bar.style.height = `${value * 10}px`;
-            bar.setAttribute('data-value', value);
-            if (index === activeIdx) {
-                bar.style.backgroundColor = '#e74c3c';
-            }
-            wrapper.appendChild(bar);
-        });
-    }
-
-    // 生成隨機陣列
-    function generateArray(algorithm) {
-        const count = parseInt(document.getElementById(`${algorithm}-dataCount`).value);
-        algorithms[algorithm] = Array.from({ length: count }, () => Math.floor(Math.random() * 20) + 1);
-        displayArray(algorithm, algorithms[algorithm]);
-        document.getElementById(`${algorithm}-sortBtn`).disabled = false;
-    }
-
-    // ===== 氣泡排序 =====
-    async function runBubbleSort() {
-        const sortBtn = document.getElementById('bubble-sortBtn');
-        sortBtn.disabled = true;
-        const speed = parseInt(document.getElementById('bubble-speed').value);
-        const arr = algorithms.bubble;
-        let n = arr.length;
-
-        for (let i = 0; i < n; i++) {
-            for (let j = 0; j < n - i - 1; j++) {
-                displayArray('bubble', arr, j);
-                await new Promise(r => setTimeout(r, speed));
-                
-                if (arr[j] > arr[j + 1]) {
-                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-                    displayArray('bubble', arr, j + 1);
-                    await new Promise(r => setTimeout(r, speed));
-                }
-            }
-        }
-        
-        displayArray('bubble', arr);
-        alert("氣泡排序完成！");
-        sortBtn.disabled = false;
-    }
-
-    // ===== 插入排序 =====
-    async function runInsertionSort() {
-        const sortBtn = document.getElementById('insertion-sortBtn');
-        sortBtn.disabled = true;
-        const speed = parseInt(document.getElementById('insertion-speed').value);
-        const arr = algorithms.insertion;
-        let n = arr.length;
-
-        for (let i = 1; i < n; i++) {
-            let key = arr[i];
-            let j = i - 1;
-
-            displayArray('insertion', arr, i);
-            await new Promise(r => setTimeout(r, speed));
-
-            while (j >= 0 && arr[j] > key) {
-                arr[j + 1] = arr[j];
-                j--;
-                
-                displayArray('insertion', arr, j + 1);
-                await new Promise(r => setTimeout(r, speed));
-            }
-            arr[j + 1] = key;
-            displayArray('insertion', arr, j + 1);
-            await new Promise(r => setTimeout(r, speed));
-        }
-        
-        displayArray('insertion', arr);
-        alert("插入排序完成！");
-        sortBtn.disabled = false;
-    }
-
-    // ===== 合併排序 =====
-    async function runMergeSort() {
-        const sortBtn = document.getElementById('merge-sortBtn');
-        sortBtn.disabled = true;
-        const speed = parseInt(document.getElementById('merge-speed').value);
-        const arr = algorithms.merge;
-        
-        async function mergeSort(start = 0, end = arr.length - 1) {
-            if (start >= end) return;
-            const mid = Math.floor((start + end) / 2);
-            await mergeSort(start, mid);
-            await mergeSort(mid + 1, end);
-            
-            let left = arr.slice(start, mid + 1);
-            let right = arr.slice(mid + 1, end + 1);
-            let i = 0, j = 0, k = start;
-            
-            while (i < left.length && j < right.length) {
-                displayArray('merge', arr, k);
-                await new Promise(r => setTimeout(r, speed));
-                if (left[i] <= right[j]) arr[k++] = left[i++];
-                else arr[k++] = right[j++];
-            }
-            while (i < left.length) arr[k++] = left[i++];
-            while (j < right.length) arr[k++] = right[j++];
-        }
-        
-        await mergeSort();
-        
-        displayArray('merge', arr);
-        alert("合併排序完成！");
-        sortBtn.disabled = false;
-    }
-
-    // ===== 快速排序 =====
-    async function runQuickSort() {
-        const sortBtn = document.getElementById('quick-sortBtn');
-        sortBtn.disabled = true;
-        const speed = parseInt(document.getElementById('quick-speed').value);
-        const arr = algorithms.quick;
-        
-        async function quickSort(low = 0, high = arr.length - 1) {
-            if (low < high) {
-                let pivotIdx = await partition(low, high);
-                await quickSort(low, pivotIdx - 1);
-                await quickSort(pivotIdx + 1, high);
-            }
-            if (low === 0 && high === arr.length - 1) displayArray('quick', arr);
-        }
-
-        async function partition(low, high) {
-            let pivot = arr[high];
-            let i = low - 1;
-            for (let j = low; j < high; j++) {
-                displayArray('quick', arr, j);
-                await new Promise(r => setTimeout(r, speed));
-                if (arr[j] < pivot) {
-                    i++;
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
-                }
-            }
-            [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
-            return i + 1;
-        }
-        
-        await quickSort();
-        
-        displayArray('quick', arr);
-        alert("快速排序完成！");
-        sortBtn.disabled = false;
-    }
-
-    // ===== 選擇排序 =====
-    async function runSelectionSort() {
-        const sortBtn = document.getElementById('selection-sortBtn');
-        sortBtn.disabled = true;
-        const speed = parseInt(document.getElementById('selection-speed').value);
-        const arr = algorithms.selection;
-        let n = arr.length;
-
-        for (let i = 0; i < n; i++) {
-            let minIdx = i;
-            for (let j = i + 1; j < n; j++) {
-                displayArray('selection', arr, j);
-                await new Promise(r => setTimeout(r, speed));
-                if (arr[j] < arr[minIdx]) minIdx = j;
-            }
-            [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
-            displayArray('selection', arr, i);
-            await new Promise(r => setTimeout(r, speed));
-        }
-        
-        displayArray('selection', arr);
-        alert("選擇排序完成！");
-        sortBtn.disabled = false;
-    }
-
-    // 初始化
-    window.addEventListener('DOMContentLoaded', function() {
-        console.log('開始初始化...');
-        displayArray('bubble', algorithms.bubble);
-        displayArray('insertion', algorithms.insertion);
-        displayArray('merge', algorithms.merge);
-        displayArray('quick', algorithms.quick);
-        displayArray('selection', algorithms.selection);
-        console.log('初始化完成');
-    });
-</script>
-
 </body>
 </html>

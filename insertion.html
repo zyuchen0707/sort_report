@@ -59,7 +59,6 @@
             gap: 10px;
             justify-content: center;
         }
-        label { font-size: 14px; color: #666; }
         input { padding: 5px; border: 1px solid #ccc; border-radius: 4px; }
         button {
             padding: 10px 20px;
@@ -93,6 +92,7 @@
         <div class="btn-group">
             <button onclick="generateArray()">生成隨機數據</button>
             <button id="sortBtn" onclick="runInsertionSort()">開始排序</button>
+            <button id="pauseBtn" onclick="togglePause()" disabled>暫停</button>
         </div>
     </div>
 </div>
@@ -101,6 +101,8 @@
     let currentArray = [5, 3, 8, 4, 2, 7, 1];
     const wrapper = document.getElementById('array-wrapper');
     const sortBtn = document.getElementById('sortBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    let isPaused = false;
 
     // 渲染畫布
     function displayArray(arr, activeIdx = -1) {
@@ -125,9 +127,26 @@
         sortBtn.disabled = false;
     }
 
+    // 暫停/播放切換
+    function togglePause() {
+        isPaused = !isPaused;
+        pauseBtn.textContent = isPaused ? '播放' : '暫停';
+    }
+
+    // 等待恢復或延遲
+    async function waitForResume(delay) {
+        while (isPaused) {
+            await new Promise(r => setTimeout(r, 100));
+        }
+        await new Promise(r => setTimeout(r, delay));
+    }
+
     // 核心演算法邏輯
     async function runInsertionSort() {
         sortBtn.disabled = true;
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = '暫停';
+        isPaused = false;
         const speed = parseInt(document.getElementById('speed').value);
         let n = currentArray.length;
 
@@ -137,23 +156,24 @@
 
             // 視覺化：標記當前選中的元素
             displayArray(currentArray, i);
-            await new Promise(r => setTimeout(r, speed));
+            await waitForResume(speed);
 
             while (j >= 0 && currentArray[j] > key) {
                 currentArray[j + 1] = currentArray[j];
                 j--;
                 
                 displayArray(currentArray, j + 1);
-                await new Promise(r => setTimeout(r, speed));
+                await waitForResume(speed);
             }
             currentArray[j + 1] = key;
             displayArray(currentArray, j + 1);
-            await new Promise(r => setTimeout(r, speed));
+            await waitForResume(speed);
         }
         
         // 完成排序
         displayArray(currentArray);
         alert("排序完成！");
+        pauseBtn.disabled = true;
     }
 
     // 初始載入
