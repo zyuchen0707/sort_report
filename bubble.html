@@ -72,12 +72,64 @@
         }
         button:hover { background-color: #34495e; }
         button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        .explanation {
+            text-align: left;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .explanation h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .explanation h4 {
+            color: #34495e;
+            margin: 15px 0 8px 0;
+            font-size: 1.1em;
+        }
+        .explanation p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .explanation ol, .explanation ul {
+            margin-left: 20px;
+            line-height: 1.6;
+        }
+        .explanation li {
+            margin-bottom: 5px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>氣泡排序 (Bubble Sort)</h2>
+    
+    <div class="explanation">
+        <h3>原理說明</h3>
+        <p>氣泡排序是一種簡單的排序算法。它重複地走訪要排序的數列，一次比較兩個元素，如果它們的順序錯誤就把它們交換過來。走訪數列的工作是重複地進行直到沒有再需要交換，也就是說該數列已經排序完成。</p>
+        
+        <h4>演算法步驟：</h4>
+        <ol>
+            <li>比較相鄰的元素。如果第一個比第二個大，就交換它們兩個。</li>
+            <li>對每一對相鄰元素做同樣的工作，從開始第一對到結尾的最後一對。</li>
+            <li>重複以上的步驟，直到排序完成。</li>
+        </ol>
+        
+        <h4>時間複雜度：</h4>
+        <ul>
+            <li>最佳情況：O(n)</li>
+            <li>平均情況：O(n²)</li>
+            <li>最壞情況：O(n²)</li>
+        </ul>
+        
+        <h4>空間複雜度：O(1)</h4>
+    </div>
     
     <div id="array-wrapper"></div>
 

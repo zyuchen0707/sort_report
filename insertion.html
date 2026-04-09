@@ -71,12 +71,67 @@
         }
         button:hover { background-color: #34495e; }
         button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        .explanation {
+            text-align: left;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #008080;
+        }
+        .explanation h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .explanation h4 {
+            color: #34495e;
+            margin: 15px 0 8px 0;
+            font-size: 1.1em;
+        }
+        .explanation p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .explanation ol, .explanation ul {
+            margin-left: 20px;
+            line-height: 1.6;
+        }
+        .explanation li {
+            margin-bottom: 5px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>插入排序 (Insertion Sort)</h2>
+    
+    <div class="explanation">
+        <h3>原理說明</h3>
+        <p>插入排序是一種簡單直觀的排序算法。它的工作原理是通過構建有序序列，對於未排序數據，在已排序序列中從後向前掃描，找到相應位置並插入。</p>
+        
+        <h4>演算法步驟：</h4>
+        <ol>
+            <li>從第一個元素開始，該元素可以認為已經被排序。</li>
+            <li>取出下一個元素，在已經排序的元素序列中從後向前掃描。</li>
+            <li>如果該元素（已排序）大於新元素，將該元素移到下一位置。</li>
+            <li>重複步驟3，直到找到已排序的元素小於或者等於新元素的位置。</li>
+            <li>將新元素插入到該位置後。</li>
+            <li>重複步驟2~5。</li>
+        </ol>
+        
+        <h4>時間複雜度：</h4>
+        <ul>
+            <li>最佳情況：O(n)</li>
+            <li>平均情況：O(n²)</li>
+            <li>最壞情況：O(n²)</li>
+        </ul>
+        
+        <h4>空間複雜度：O(1)</h4>
+    </div>
     
     <div id="array-wrapper"></div>
 

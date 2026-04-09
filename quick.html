@@ -72,12 +72,64 @@
         }
         button:hover { background-color: #34495e; }
         button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        .explanation {
+            text-align: left;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #9b59b6;
+        }
+        .explanation h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .explanation h4 {
+            color: #34495e;
+            margin: 15px 0 8px 0;
+            font-size: 1.1em;
+        }
+        .explanation p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .explanation ol, .explanation ul {
+            margin-left: 20px;
+            line-height: 1.6;
+        }
+        .explanation li {
+            margin-bottom: 5px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>快速排序 (Quick Sort)</h2>
+    
+    <div class="explanation">
+        <h3>原理說明</h3>
+        <p>快速排序是一種分治的排序算法。它將一個數列分成兩個子數列，其中一個子數列的所有元素都比另一個子數列的元素小。然後遞歸地對這兩個子數列進行快速排序。快速排序是目前使用最廣泛的排序算法之一。</p>
+        
+        <h4>演算法步驟：</h4>
+        <ol>
+            <li>從數列中挑出一個元素，稱為"基準"（pivot）。</li>
+            <li>重新排序數列，所有元素比基準值小的擺放在基準前面，所有元素比基準值大的擺在基準的後面（相同的數可以到任一邊）。</li>
+            <li>遞歸地將小於基準值元素的子數列和大於基準值元素的子數列排序。</li>
+        </ol>
+        
+        <h4>時間複雜度：</h4>
+        <ul>
+            <li>最佳情況：O(n log n)</li>
+            <li>平均情況：O(n log n)</li>
+            <li>最壞情況：O(n²)</li>
+        </ul>
+        
+        <h4>空間複雜度：O(log n)</h4>
+    </div>
     
     <div id="array-wrapper"></div>
 

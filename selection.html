@@ -72,12 +72,64 @@
         }
         button:hover { background-color: #34495e; }
         button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        .explanation {
+            text-align: left;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #e67e22;
+        }
+        .explanation h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .explanation h4 {
+            color: #34495e;
+            margin: 15px 0 8px 0;
+            font-size: 1.1em;
+        }
+        .explanation p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .explanation ol, .explanation ul {
+            margin-left: 20px;
+            line-height: 1.6;
+        }
+        .explanation li {
+            margin-bottom: 5px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>選擇排序 (Selection Sort)</h2>
+    
+    <div class="explanation">
+        <h3>原理說明</h3>
+        <p>選擇排序是一種簡單直觀的排序算法。它的工作原理是每一次從待排序的數據元素中選出最小（或最大）的一個元素，存放在序列的起始位置，然後再從剩餘的未排序元素中尋找最小（大）元素，然後放到已排序序列的末尾。以此類推，直到全部待排序的數據元素排完。</p>
+        
+        <h4>演算法步驟：</h4>
+        <ol>
+            <li>在未排序序列中找到最小（大）元素，存放到排序序列的起始位置。</li>
+            <li>再從剩餘未排序元素中繼續尋找最小（大）元素，然後放到已排序序列的末尾。</li>
+            <li>重複第二步，直到所有元素均排序完畢。</li>
+        </ol>
+        
+        <h4>時間複雜度：</h4>
+        <ul>
+            <li>最佳情況：O(n²)</li>
+            <li>平均情況：O(n²)</li>
+            <li>最壞情況：O(n²)</li>
+        </ul>
+        
+        <h4>空間複雜度：O(1)</h4>
+    </div>
     
     <div id="array-wrapper"></div>
 

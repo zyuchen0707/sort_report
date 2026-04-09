@@ -72,12 +72,65 @@
         }
         button:hover { background-color: #34495e; }
         button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
+        .explanation {
+            text-align: left;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+        .explanation h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .explanation h4 {
+            color: #34495e;
+            margin: 15px 0 8px 0;
+            font-size: 1.1em;
+        }
+        .explanation p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .explanation ol, .explanation ul {
+            margin-left: 20px;
+            line-height: 1.6;
+        }
+        .explanation li {
+            margin-bottom: 5px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>合併排序 (Merge Sort)</h2>
+    
+    <div class="explanation">
+        <h3>原理說明</h3>
+        <p>合併排序是一種分治算法。其思想是將待排序的數列分成若干個子序列，每個子序列都是有序的。然後再把有序子序列合併成整體有序序列。合併排序是穩定排序，它也是一种典型的分而治之的算法應用。</p>
+        
+        <h4>演算法步驟：</h4>
+        <ol>
+            <li>將數列分成兩半。</li>
+            <li>遞歸地對左半部分進行合併排序。</li>
+            <li>遞歸地對右半部分進行合併排序。</li>
+            <li>將兩個已排序的子數列合併成一個有序的數列。</li>
+        </ol>
+        
+        <h4>時間複雜度：</h4>
+        <ul>
+            <li>最佳情況：O(n log n)</li>
+            <li>平均情況：O(n log n)</li>
+            <li>最壞情況：O(n log n)</li>
+        </ul>
+        
+        <h4>空間複雜度：O(n)</h4>
+    </div>
     
     <div id="array-wrapper"></div>
 
