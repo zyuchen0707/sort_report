@@ -1,0 +1,22 @@
+<script>
+    async function mergeSort(start = 0, end = array.length - 1) {
+        if (start >= end) return;
+        const mid = Math.floor((start + end) / 2);
+        await mergeSort(start, mid);
+        await mergeSort(mid + 1, end);
+        
+        let left = array.slice(start, mid + 1);
+        let right = array.slice(mid + 1, end + 1);
+        let i = 0, j = 0, k = start;
+        
+        while (i < left.length && j < right.length) {
+            render([k]);
+            await new Promise(r => setTimeout(r, 150));
+            if (left[i] <= right[j]) array[k++] = left[i++];
+            else array[k++] = right[j++];
+        }
+        while (i < left.length) array[k++] = left[i++];
+        while (j < right.length) array[k++] = right[j++];
+        render([], array.length);
+    }
+</script>
